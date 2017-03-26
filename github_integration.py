@@ -24,8 +24,7 @@ class Github(GithubApi):
 		super(Github, self).__init__(username, pwd)
 
 		self.repo_name = repo_name
-		self.milestones = set()
-		self.issues = set()
+		self.issues = list()
 		self.user = user
 
 	def load(self):
@@ -52,8 +51,6 @@ class Github(GithubApi):
 
 			if github_issue.milestone_id:
 				github_issue = AssociatedIssue(**issue.raw_data)
-				milestone = Milestone(**issue.raw_data["milestone"])
-				self.add(milestone, "milestone")
 			else:
 				github_issue = SingleIssue(**issue.raw_data)
 
@@ -68,7 +65,7 @@ class Github(GithubApi):
 		"""
 		if new_item.id not in [item.id for item in getattr(self, ITEM_LIST_MATCHING[item_label])]:
 			logging.info("Adding {} to {}".format(new_item, self))
-			getattr(self, ITEM_LIST_MATCHING[item_label]).add(new_item)
+			getattr(self, ITEM_LIST_MATCHING[item_label]).append(new_item)
 		return new_item
 
 
@@ -106,6 +103,7 @@ class Issue(Element):
 		super(Issue, self).__init__(**kwargs)
 		self.milestone_id = kwargs.get("milestone", {}).get("id", None) if kwargs.get("milestone") else None
 		self.assignees = [assignee["login"] for assignee in kwargs.get("assignees", [])]
+		self.closed_at = kwargs.get("closed_at")
 
 
 class SingleIssue(Issue):
@@ -116,3 +114,4 @@ class SingleIssue(Issue):
 class AssociatedIssue(Issue):
 	def __init__(self, **kwargs):
 		super(AssociatedIssue, self).__init__(**kwargs)
+		self.milestone = Milestone(**kwargs.get("milestone", {}))
