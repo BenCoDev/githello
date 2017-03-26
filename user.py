@@ -2,7 +2,6 @@
 
 # std
 import os
-import logging
 
 # 3p
 
@@ -14,7 +13,6 @@ GITHUB_USER = os.environ["GITHUB_USER"]
 GITHUB_PWD = os.environ["GITHUB_PWD"]
 GITHUB_REPO_NAME = os.environ["GITHUB_REPO_NAME"]
 TRELLO_USER = os.environ["TRELLO_USER"]
-TRELLO_BOARD_NAME = os.environ["TRELLO_BOARD_NAME"]
 TRELLO_APP_KEY = os.environ["TRELLO_APP_KEY"]
 TRELLO_TOKEN = os.environ["TRELLO_TOKEN"]
 
