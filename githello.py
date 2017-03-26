@@ -15,20 +15,17 @@ logging.config.fileConfig('logging.conf')
 logger = logging.getLogger('githello')
 
 
-def run(board_type="milestone_board"):
+def run():
 	"""
 	Run
 	:param board_type:
 	:return:
 	"""
 	user = User()
-	if board_type == "milestone_board":
-		[getattr(user.trello, board_type).update(milestone) for milestone in user.github.milestones]
-	else:
-		[getattr(user.trello, board_type).update(issue) for issue in user.github.single_issues]
+	user.github.load()
+	[user.trello.update(issue) for issue in user.github.issues]
 
-
-run(board_type="single_issue_board")
+run()
 # Define objective
 # Define use cases
 # Place on heroku with cron
