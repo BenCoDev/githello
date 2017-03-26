@@ -57,16 +57,17 @@ class Trello(TrelloApi):
 			existing_checklist = self.milestone_board.get_checklist(issue.milestone.title)
 
 			if existing_checklist:
-				existing_checklist_item = self.milestone_board.get_checklist_item(checklist_item.name, existing_checklist)
-				if existing_checklist_item:
-					pass  # TODO: should update
-				else:
-					self.milestone_board.add_checklist_item(checklist_item.to_json_dict(), existing_checklist)
+				# existing_checklist_item = self.milestone_board.get_checklist_item(checklist_item.name, existing_checklist)
+				# if existing_checklist_item:
+				# 	pass  # TODO: should update
+				# else:
+				# 	self.milestone_board.add_checklist_item(checklist_item.to_json_dict(), existing_checklist)
+				pass
 			else:
 				# Should create card ?
 				card = self.milestone_board.add_card(Card.from_github(self, issue.milestone))
 				checklist = self.milestone_board.add_checklist(CheckList.from_github(self, issue.milestone), card)
-				self.milestone_board.add_checklist_item(checklist_item.to_json_dict(), checklist)
+				# self.milestone_board.add_checklist_item(checklist_item.to_json_dict(), checklist)
 
 		else: raise Exception
 
