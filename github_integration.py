@@ -5,6 +5,7 @@ import logging.config
 
 # 3p
 from github import Github as GithubApi
+from unidecode import unidecode
 
 logging.config.fileConfig('logging.conf')
 logger = logging.getLogger(__name__)
@@ -81,7 +82,7 @@ class Element(object):
 		return self.__dict__
 
 	def __repr__(self):
-		return "{} <{} {}>".format(self.__class__.__name__, self.id, self.title)
+		return u"{} <{} {}>".format(self.__class__.__name__, self.id, unidecode(self.title))
 
 
 class Milestone(Element):
