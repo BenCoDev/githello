@@ -14,11 +14,11 @@ from github_integration import Milestone as GithubMilestone
 
 class Trello(TrelloApi):
 	APP_NAME = 'Partoo'
-	# TRELLO_MILESTONE_BOARD_NAME = "TECH - Milestones"
-	TRELLO_MILESTONE_BOARD_NAME = "TEST_MILESTONES"
+	TRELLO_MILESTONE_BOARD_NAME = "TECH - Milestones"
+	# TRELLO_MILESTONE_BOARD_NAME = "TEST_MILESTONES"
 
-	# TRELLO_SINGLE_ISSUE_BOARD_NAME = "TECH - Issues"
-	TRELLO_SINGLE_ISSUE_BOARD_NAME = "TEST_ISSUES"
+	TRELLO_SINGLE_ISSUE_BOARD_NAME = "TECH - Issues"
+	# TRELLO_SINGLE_ISSUE_BOARD_NAME = "TEST_ISSUES"
 
 	def __init__(self, app_key, token, username=None, user=None):
 		super(Trello, self).__init__(app_key, token)
