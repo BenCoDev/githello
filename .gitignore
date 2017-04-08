@@ -1,3 +1,4 @@
 .idea/
-./export_env_var.sh
+./export_var.sh
 *.pyc
+.cache/*
