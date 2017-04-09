@@ -26,14 +26,14 @@ class GithubUnitTest(unittest.TestCase):
 		Expect len of generator to be 7
 		:return: 
 		"""
-		from github_integration import Milestone
+		from github_integration import AssociatedIssue
 		issues = []
 
 		for issue in self.github.load():
 			issues.append(issue)
 
 		self.assertEquals(len(issues), 7)
-		self.assertEquals(isinstance(issues[6], Milestone), True)
+		self.assertEquals(isinstance(issues[6], AssociatedIssue), True)
 
 
 class ElementUnitTest(unittest.TestCase):
