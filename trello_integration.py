@@ -89,9 +89,9 @@ class Board(object):
 		self.trello_api = trello_api
 		self.id = kwargs.get("id")
 		self.name = kwargs.get("name")
-		self.cards = [Card(**card) for card in trello_api.boards.get_card_filter("open", kwargs.get("id"))]
-		self.lists = [List(**list) for list in trello_api.boards.get_list(kwargs.get("id"))]
-		self.checklists = [CheckList(**checklist) for checklist in trello_api.boards.get_checklist(kwargs.get("id"))]
+		self.cards = [Card(**card) for card in trello_api.boards.get_card_filter("open", kwargs.get("id"))]  # init cards from Trello
+		self.lists = [List(**list) for list in trello_api.boards.get_list(kwargs.get("id"))]  # init lists from Trello
+		self.checklists = [CheckList(**checklist) for checklist in trello_api.boards.get_checklist(kwargs.get("id"))]  # init checklists from Trello
 
 	def get_card(self, card_name):
 		for card in self.cards:
@@ -104,7 +104,9 @@ class Board(object):
 			card.idList,
 			desc=card.desc
 		)
-		return Card(**resp)
+		added_card = Card(**resp)
+		self.cards.append(added_card)
+		return added_card
 
 	def update_card(self, card, json_dict):
 		"""
