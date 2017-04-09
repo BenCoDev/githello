@@ -647,7 +647,7 @@ mock_issues = [
 
 
 class IssueGenerator:
-	totalCount=len(mock_issues)
+	totalCount = len(mock_issues)
 
 	def __iter__(self):
 		for issue in mock_issues:
@@ -657,7 +657,7 @@ class IssueGenerator:
 mock_get_repo = Mock(
 	return_value=Mock(
 		get_issues=Mock(
-			return_value=IssueGenerator
+			return_value=IssueGenerator()
 		)
 	)
 )
