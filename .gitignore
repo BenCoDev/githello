@@ -2,4 +2,5 @@
 ./export_var.sh
 *.pyc
 .cache/*
-*/mock_*
+./tests/mock_*.py
+
