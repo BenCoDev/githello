@@ -13,6 +13,9 @@ from github_integration import Milestone as GithubMilestone
 
 
 class Trello(TrelloApi):
+	"""
+	Trello wrapper
+	"""
 	APP_NAME = 'Partoo'
 	TRELLO_MILESTONE_BOARD_NAME = "TECH - Milestones"
 	# TRELLO_MILESTONE_BOARD_NAME = "TEST_MILESTONES"
@@ -39,7 +42,7 @@ class Trello(TrelloApi):
 
 	def update(self, issue):
 		"""
-		Update
+		Update relevant board from issue given
 		:param issue:
 		:return:
 		"""
@@ -89,9 +92,18 @@ class Board(object):
 		self.trello_api = trello_api
 		self.id = kwargs.get("id")
 		self.name = kwargs.get("name")
-		self.cards = [Card(**card) for card in trello_api.boards.get_card_filter("open", kwargs.get("id"))]  # init cards from Trello
-		self.lists = [List(**list) for list in trello_api.boards.get_list(kwargs.get("id"))]  # init lists from Trello
-		self.checklists = [CheckList(**checklist) for checklist in trello_api.boards.get_checklist(kwargs.get("id"))]  # init checklists from Trello
+
+	@property
+	def cards(self):
+		return [Card(**card) for card in self.trello_api.boards.get_card_filter("open", self.id)]
+
+	@property
+	def lists(self):
+		return [List(**list) for list in self.trello_api.boards.get_list(self.id)]  # init lists from Trello
+
+	@property
+	def checklists(self):
+		return [CheckList(**checklist) for checklist in self.trello_api.boards.get_checklist(self.id)]  # init checklists from Trello
 
 	def get_card(self, card_name):
 		for card in self.cards:
