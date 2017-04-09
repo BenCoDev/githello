@@ -17,7 +17,6 @@ class Github(GithubApi):
 		logging.info("Github - Init")
 
 		super(Github, self).__init__(username, pwd)
-
 		self.repo_name = repo_name
 		self.user = user
 
@@ -36,11 +35,12 @@ class Github(GithubApi):
 		for index, issue in enumerate(issues):
 			logging.info("Github - Loading issue {} / {} ".format(index + 1, total_count))
 
-			# If Github issue has milestones, create/update milestone
 			github_issue = Issue(**issue.raw_data)
 
-			if github_issue.milestone_id: github_issue = AssociatedIssue(**issue.raw_data)
-			else: github_issue = SingleIssue(**issue.raw_data)
+			if github_issue.milestone_id:
+				github_issue = AssociatedIssue(**issue.raw_data)
+			else:
+				github_issue = SingleIssue(**issue.raw_data)
 
 			yield github_issue
 
