@@ -12,12 +12,13 @@ class GithubUnitTest(unittest.TestCase):
 
 	def setUp(self):
 		from github_integration import Github
+
 		GITHUB_USER = os.environ["GITHUB_USER"]
 		GITHUB_PWD = os.environ["GITHUB_PWD"]
 		GITHUB_REPO_NAME = os.environ["GITHUB_REPO_NAME"]
+
 		self.github = Github(GITHUB_USER, GITHUB_PWD, repo_name=GITHUB_REPO_NAME)
 
-		# Mock get repo
 		self.github.get_repo = mock_get_repo
 
 	def test_load(self):
@@ -25,14 +26,14 @@ class GithubUnitTest(unittest.TestCase):
 		Expect len of generator to be 7
 		:return: 
 		"""
-		from github_integration import AssociatedIssue
+		from github_integration import Milestone
 		issues = []
 
 		for issue in self.github.load():
 			issues.append(issue)
 
 		self.assertEquals(len(issues), 7)
-		self.assertEquals(isinstance(issues[6], AssociatedIssue), True)
+		self.assertEquals(isinstance(issues[6], Milestone), True)
 
 
 class ElementUnitTest(unittest.TestCase):

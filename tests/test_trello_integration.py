@@ -26,7 +26,7 @@ class BoardUnitTest(unittest.TestCase):
 		from github_integration import SingleIssue
 		card = Card.from_github(mock_trello_api, SingleIssue(**{
 			"id": u"test_id",
-			"title": u'Pusher / le118000 / street_number',
+			"title": u'Issue Super Name 3',
 			"description": u"Lorem Ipsum",
 			"state": u"open"
 		}))
@@ -42,7 +42,7 @@ class BoardUnitTest(unittest.TestCase):
 		from github_integration import SingleIssue
 		card = Card.from_github(mock_trello_api, SingleIssue(**{
 			"id": u"test_id",
-			"title": u'Pusher / le118000 / street_number',
+			"title": u'Issue Super Name 3',
 			"description": u"Lorem Ipsum",
 			"state": u"open"
 		}))
@@ -53,7 +53,7 @@ class BoardUnitTest(unittest.TestCase):
 		Expect proper card to be added
 		:return:
 		"""
-		card = self.board.get_card(u'Pusher / le118000 / street_number')
+		card = self.board.get_card(u'Issue Super Name 3')
 
 		self.assertEquals(self.board.update_card(card, {
 			"desc": "New description"
@@ -64,7 +64,7 @@ class BoardUnitTest(unittest.TestCase):
 		from github_integration import AssociatedIssue
 		checklist_item = CheckListItem.from_github(mock_trello_api, AssociatedIssue(**{
 			"id": u"test_id",
-			"title": u'Pusher / le118000 / street_number',
+			"title": u'Issue Super Name 3',
 			"description": u"Lorem Ipsum",
 			"state": u"open"
 		}))
