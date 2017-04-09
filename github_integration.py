@@ -11,12 +11,6 @@ logging.config.fileConfig('logging.conf')
 logger = logging.getLogger(__name__)
 
 
-ITEM_LIST_MATCHING = {
-	"issue": "issues",
-	"milestone": "milestones"
-}
-
-
 class Github(GithubApi):
 
 	def __init__(self, username, pwd, repo_name=None, user=None):
@@ -25,24 +19,19 @@ class Github(GithubApi):
 		super(Github, self).__init__(username, pwd)
 
 		self.repo_name = repo_name
-		self.issues = list()
 		self.user = user
 
 	def load(self):
 		"""
 		Iterate over Github issues
+		
+		yield Github issue
 
-		Append data in self.milestones if is a issue has a milestone
-		Append data in self.issues
-
-		FIXME: Limit: using list to store the issues, should use generator and fetch one by one and process one by one
 		:return:
 		"""
-		logging.info("Github - Loading milestones")
-
 		issues = self.get_repo(self.repo_name).get_issues(state="all")
 
-		total_count = len(list(issues)) or issues.totalCount
+		total_count = issues.totalCount
 
 		for index, issue in enumerate(issues):
 			logging.info("Github - Loading issue {} / {} ".format(index + 1, total_count))
@@ -50,24 +39,10 @@ class Github(GithubApi):
 			# If Github issue has milestones, create/update milestone
 			github_issue = Issue(**issue.raw_data)
 
-			if github_issue.milestone_id:
-				github_issue = AssociatedIssue(**issue.raw_data)
-			else:
-				github_issue = SingleIssue(**issue.raw_data)
+			if github_issue.milestone_id: github_issue = AssociatedIssue(**issue.raw_data)
+			else: github_issue = SingleIssue(**issue.raw_data)
 
-			self.add(github_issue, "issue")
-
-	def add(self, new_item, item_label):
-		"""
-		Add an item to a list
-		:param new_item: {object} - can be an Issue or a Milestone instance
-		 :param item_label: {str} - "milestone" | "issue"
-		:return: 
-		"""
-		if new_item.id not in [item.id for item in getattr(self, ITEM_LIST_MATCHING[item_label])]:
-			logging.info("Adding {} to {}".format(new_item, self))
-			getattr(self, ITEM_LIST_MATCHING[item_label]).append(new_item)
-		return new_item
+			yield github_issue
 
 
 class Element(object):

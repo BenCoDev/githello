@@ -1,7 +1,8 @@
 # std
 import unittest
 import os
-from mock import patch
+
+# 3p
 
 # project
 from mock_github import *
@@ -16,12 +17,22 @@ class GithubUnitTest(unittest.TestCase):
 		GITHUB_REPO_NAME = os.environ["GITHUB_REPO_NAME"]
 		self.github = Github(GITHUB_USER, GITHUB_PWD, repo_name=GITHUB_REPO_NAME)
 
+		# Mock get repo
+		self.github.get_repo = mock_get_repo
+
 	def test_load(self):
-		from github_integration import Milestone
-		with patch.object(self.github, "get_repo", return_value=mock_repo):
-			self.github.load()
-			self.assertEquals(len(self.github.issues), 7)
-			self.assertEquals(isinstance(self.github.issues[6].milestone, Milestone), True)
+		"""
+		Expect len of generator to be 7
+		:return: 
+		"""
+		from github_integration import AssociatedIssue
+		issues = []
+
+		for issue in self.github.load():
+			issues.append(issue)
+
+		self.assertEquals(len(issues), 7)
+		self.assertEquals(isinstance(issues[6], AssociatedIssue), True)
 
 
 class ElementUnitTest(unittest.TestCase):

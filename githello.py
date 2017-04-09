@@ -22,8 +22,8 @@ def run():
 	:return:
 	"""
 	user = User()
-	user.github.load()
-	[user.trello.update(issue) for issue in user.github.issues]
+	for issue in user.github.load():
+		user.trello.update(issue)
 
 run()
 # Define objective
